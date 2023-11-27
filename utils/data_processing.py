@@ -1,8 +1,12 @@
 import datetime
 import re
+from logging import getLogger
 from pathlib import Path
 
 import pandas as pd
+from tqdm import tqdm
+
+logger = getLogger(__file__)
 
 
 def igc2csv(path: Path) -> pd.DataFrame:
@@ -90,6 +94,12 @@ if __name__ == "__main__":
     source_dir = Path(__file__).parents[1] / "data/igc"
     target_dir = Path(__file__).parents[1] / "data/csv"
 
-    for path in source_dir.glob("*.igc"):
-        df = igc2csv(path)
-        df.to_csv(target_dir / path.with_suffix(".csv").name, index=False)
+    for path in tqdm(list(source_dir.glob("*.igc"))):
+        target_path = target_dir / path.with_suffix(".csv").name
+        if target_path.exists():
+            continue
+
+        try:
+            igc2csv(path).to_csv(target_path, index=False)
+        except:
+            logger.error(f"Could not convert {path.name} to csv.")
