@@ -18,8 +18,8 @@ content = html.Div(
         ),
         dbc.Row(
             [
-                dbc.Col([html.P("Altitude"), flight_log.graph_altitude]),
-                dbc.Col([html.P("Climb Rate")]),
+                dbc.Col([html.P("Altitude"), flight_log.graph_altitude], width=8),
+                dbc.Col([html.P("Climb Rate"), flight_log.graph_climb_rate], width=4),
             ],
             style={"height": "50vh"},
         ),
