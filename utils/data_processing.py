@@ -1,5 +1,5 @@
-import datetime
 import re
+from datetime import datetime
 from logging import getLogger
 from pathlib import Path
 
@@ -9,85 +9,70 @@ from tqdm import tqdm
 logger = getLogger(__file__)
 
 
+def _convert_dms_to_decimal(value: float) -> float:
+    """
+    緯度経度の60進法を10進法に変換する
+    """
+    integer_part = int(value)
+    decimal_part_dms = value - integer_part
+
+    decimal_part_dec = decimal_part_dms * 100 / 60
+
+    return integer_part + decimal_part_dec
+
+
 def igc2csv(path: Path) -> pd.DataFrame:
     """
-    igcファイルをcsvに変換する。
-    神記事のコードをもとに一部修正: https://mtkbirdman.com/python-convert-igc-file-to-csv-data
+    igcファイルをcsvに変換する
     """
     with open(path) as f:
-        igcfile = f.readlines()
-    igcfile = [line.rstrip("\n") for line in igcfile]
+        content = f.readlines()
+    lines = [line.rstrip("\n") for line in content]
 
-    # Extract flight date
-    for line in igcfile:
-        if result := re.fullmatch(
-            r"HFDTE(?P<day>\d{2})(?P<month>\d{2})(?P<year>\d{2})", line
-        ):
-            date = datetime.date(
-                int("20" + result.group("year")),
-                int(result.group("month")),
-                int(result.group("day")),
-            )
+    # Extract date
+    h_record_pattern = r"HFDTE(\d{2})(\d{2})(\d{2})"  # HFDTE day month year
+
+    for line in lines:
+        if result := re.fullmatch(h_record_pattern, line):
+            day = int(result.group(1))
+            month = int(result.group(2))
+            year = int("20" + result.group(3))
             break
 
-    # Extract B-record from IGC file
-    igc_B = [
-        [igcfile.index(lines), lines]
-        for lines in igcfile
-        if "B" in lines[0]
-        if "A" in lines
-    ]
-    list_B = [
-        [
-            lines[0],
-            lines[1][0],
-            lines[1][1:7],
-            lines[1][7:14],
-            lines[1][14],
-            lines[1][15:23],
-            lines[1][23],
-            lines[1][24],
-            lines[1][25:30],
-            lines[1][30:],
-        ]
-        for lines in igc_B
-    ]
+    data = {}
+    data["timestamp"] = []
+    data["latitude"] = []
+    data["longitude"] = []
+    data["altitude(press)"] = []
+    data["altitude(gnss)"] = []
 
-    # Convert text of B-record to values
-    idx = 0
-    for _ in list_B:
-        list_B[idx][2] = datetime.datetime(
-            date.year,
-            date.month,
-            date.day,
-            int(list_B[idx][2][:2]),
-            int(list_B[idx][2][2:4]),
-            int(list_B[idx][2][4:]),
-        )
-        list_B[idx][3] = float(list_B[idx][3]) / 100000.0
-        list_B[idx][5] = float(list_B[idx][5]) / 100000.0
-        list_B[idx][8] = float(list_B[idx][8])
-        list_B[idx][9] = float(list_B[idx][9])
-        idx += 1
+    # Extract B-record
+    b_record_pattern = r"B(\d{6})(\d{7})N(\d{8})EA(-\d{4}|\d{5})(-\d{4}|\d{5})"  # B time lat lon A PressAlt GNSSAlt
 
-    # Create dataframe from list of records and export it as CSV file
-    df_B = pd.DataFrame(
-        list_B,
-        columns=[
-            "igc_index",
-            "record_type",
-            "UTC_time",
-            "latitude",
-            "NS",
-            "longitude",
-            "EW",
-            "fix_validity",
-            "press_alt",
-            "GNSS_alt",
-        ],
-    )
+    for line in lines:
+        if result := re.match(b_record_pattern, line):
+            # timestamp
+            hhmmss = result.group(1)
+            timestamp = datetime(
+                year, month, day, int(hhmmss[:2]), int(hhmmss[2:4]), int(hhmmss[4:])
+            )
+            data["timestamp"].append(timestamp)
 
-    return df_B
+            # latitude and longitude
+            latitude = float(result.group(2)) / 100000
+            latitude = _convert_dms_to_decimal(latitude)
+            longitude = float(result.group(3)) / 100000
+            longitude = _convert_dms_to_decimal(longitude)
+            data["latitude"].append(latitude)
+            data["longitude"].append(longitude)
+
+            # altitude
+            alt_press = int(result.group(4))
+            alt_gnss = int(result.group(5))
+            data["altitude(press)"].append(alt_press)
+            data["altitude(gnss)"].append(alt_gnss)
+
+    return pd.DataFrame(data=data)
 
 
 if __name__ == "__main__":

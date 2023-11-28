@@ -23,7 +23,7 @@ def update_trajectory(values):
     fig.update_layout(
         margin={"l": 0, "t": 0, "b": 0, "r": 0},
         mapbox={
-            "center": {"lon": 139.25, "lat": 36.13},
+            "center": {"lon": 139.41889, "lat": 36.21139},
             "style": "carto-positron",
             "zoom": 13,
         },
@@ -40,7 +40,7 @@ def update_trajectory(values):
                 mode="lines",
                 lon=df["longitude"],
                 lat=df["latitude"],
-                hovertext=df["GNSS_alt"],  # TODO: convert to meter
+                hovertext=df["altitude(press)"],
                 hovertemplate="%{hovertext} m",
                 name=value,
             )
@@ -63,7 +63,7 @@ def update_altitude(values):
     for value in values:
         df = pd.read_csv(DATA_DIR / f"{value}.csv")
         fig.add_trace(
-            go.Scatter(x=df["UTC_time"], y=df["GNSS_alt"], name=value)
-        )  # TODO: convert to meter
+            go.Scatter(x=df["timestamp"], y=df["altitude(press)"], name=value)
+        )
 
     return fig
