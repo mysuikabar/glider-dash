@@ -268,6 +268,17 @@ async = ["asgiref (>=3.2)"]
 dotenv = ["python-dotenv"]
 
 [[package]]
+name = "geographiclib"
+version = "2.0"
+description = "The geodesic routines from GeographicLib"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "geographiclib-2.0-py3-none-any.whl", hash = "sha256:6b7225248e45ff7edcee32becc4e0a1504c606ac5ee163a5656d482e0cd38734"},
+    {file = "geographiclib-2.0.tar.gz", hash = "sha256:f7f41c85dc3e1c2d3d935ec86660dc3b2c848c83e17f9a9e51ba9d5146a15859"},
+]
+
+[[package]]
 name = "idna"
 version = "3.6"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -577,6 +588,17 @@ xlsx2csv = ["xlsx2csv (>=0.8.0)"]
 xlsxwriter = ["xlsxwriter"]
 
 [[package]]
+name = "pygeodesy"
+version = "23.11.11"
+description = "Pure Python geodesy tools"
+optional = false
+python-versions = "*"
+files = [
+    {file = "PyGeodesy-23.11.11-py2.py3-none-any.whl", hash = "sha256:f6d450b5ff9c4905f163e341837bdcfb5b34e16c33791a957cc04dec8b20bf87"},
+    {file = "PyGeodesy-23.11.11.zip", hash = "sha256:52aabad9712d3c0c4731bfc252e826245669b1e26e21d7179b7789ea867e90e6"},
+]
+
+[[package]]
 name = "python-dateutil"
 version = "2.8.2"
 description = "Extensions to the standard Python datetime module"
@@ -770,4 +792,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "6bf4c06638328cfd14fe3a7ef27a911d2df35423df925079a5f22840b0a4a598"
+content-hash = "e158578e1fd0220e2ded62152e38aa5fee6be89e5bc472f3ae961542c337d77d"
