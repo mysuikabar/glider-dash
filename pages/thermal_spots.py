@@ -5,7 +5,7 @@ import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
 from dash import Input, Output, callback, dcc, html
 
-from utils.preprocessing.agg import load_and_concat_csv
+from src.preprocessing.agg import load_and_concat_csv
 
 dash.register_page(__name__)
 
@@ -52,12 +52,15 @@ def update_thermal_spots(value):
             lat=df["latitude"],
             lon=df["longitude"],
             marker=dict(
+                size=10,
                 color=df["climb_rate"],
                 colorscale="RdBu_r",
                 cmin=-3,
                 cmax=3,
                 colorbar=dict(title="Climb Rate"),
             ),
+            hovertext=df["altitude(press)"],
+            hovertemplate="climb rate: %{marker.color:.2f} m/s<br>altitude: %{hovertext:d} m",
         )
     )
 

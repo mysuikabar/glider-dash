@@ -6,7 +6,7 @@ import pandas as pd
 import plotly.graph_objects as go
 from dash import Input, Output, callback, dcc, html
 
-from utils import stats
+from src import stats
 
 dash.register_page(__name__)
 
