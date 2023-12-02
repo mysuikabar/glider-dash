@@ -1,45 +1,21 @@
+import dash
 import dash_bootstrap_components as dbc
-from dash import Dash, html
+from dash import Dash, dcc, html
 
-from components import flight_log
+app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY], use_pages=True)
 
-app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
-
-sidebar = html.Div(
-    [html.H3("Glider Dashboard"), html.P("Select IGC files"), flight_log.dropdown]
-)
-content = html.Div(
+app.layout = html.Div(
     [
-        dbc.Row(
+        html.H1("Glider Dashboard"),
+        html.Div(
             [
-                dbc.Col([html.P("Trajectory"), flight_log.graph_trajectory]),
-            ],
-            style={"height": "50vh"},
+                html.Div(dcc.Link(f"{page['name']}", href=page["relative_path"]))
+                for page in dash.page_registry.values()
+            ]
         ),
-        dbc.Row(
-            [
-                dbc.Col([html.P("Altitude"), flight_log.graph_altitude], width=8),
-                dbc.Col([html.P("Climb Rate"), flight_log.graph_climb_rate], width=4),
-            ],
-            style={"height": "50vh"},
-        ),
+        dash.page_container,
     ]
 )
-
-
-app.layout = dbc.Container(
-    [
-        dbc.Row(
-            [
-                dbc.Col(sidebar, width=2, className="bg-light"),
-                dbc.Col(content, width=10),
-            ],
-            style={"height": "100vh"},
-        ),
-    ],
-    fluid=True,
-)
-
 
 if __name__ == "__main__":
     app.run(debug=True)

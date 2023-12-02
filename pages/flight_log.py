@@ -1,21 +1,51 @@
 from pathlib import Path
 
+import dash
+import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.graph_objects as go
-from dash import Input, Output, callback, dcc
+from dash import Input, Output, callback, dcc, html
 
 from utils import stats
 
-DATA_DIR = Path(__file__).parents[1] / "data/csv"
+dash.register_page(__name__)
 
-
+DATA_DIR = Path(__file__).parents[1] / "data" / "csv"
 igc_files = [file.stem for file in DATA_DIR.glob("*.csv")]
-dropdown = dcc.Dropdown(igc_files, id="igc-files-dropdown", optionHeight=50, multi=True)
+sidebar = html.Div(
+    dcc.Dropdown(igc_files, id="igc-files-dropdown", optionHeight=50, multi=True)
+)
 
-graph_trajectory = dcc.Graph(id="trajectory")
-graph_altitude = dcc.Graph(id="altitude")
+content = html.Div(
+    [
+        dbc.Row(
+            [
+                dbc.Col([html.P("Trajectory"), dcc.Graph(id="trajectory")]),
+            ],
+            style={"height": "50vh"},
+        ),
+        dbc.Row(
+            [
+                dbc.Col([html.P("Altitude"), dcc.Graph(id="altitude")], width=8),
+                dbc.Col([html.P("Climb Rate"), dcc.Graph(id="climb-rate")], width=4),
+            ],
+            style={"height": "50vh"},
+        ),
+    ]
+)
 
-graph_climb_rate = dcc.Graph(id="climb-rate")
+layout = dbc.Container(
+    [
+        dbc.Row(
+            [
+                dbc.Col(sidebar, width=2, className="bg-light"),
+                dbc.Col(content, width=10),
+            ],
+            style={"height": "100vh"},
+        ),
+    ],
+    fluid=True,
+)
 
 
 @callback(
