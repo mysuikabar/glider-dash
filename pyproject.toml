@@ -14,6 +14,7 @@ dash-bootstrap-components = "^1.5.0"
 tqdm = "^4.66.1"
 geographiclib = "^2.0"
 pygeodesy = "^23.11.11"
+pyarrow = "^14.0.1"
 
 
 [build-system]
