@@ -1,5 +1,3 @@
-from pathlib import Path
-
 import dash
 import dash_bootstrap_components as dbc
 import pandas as pd
@@ -7,10 +5,12 @@ import plotly.graph_objects as go
 from dash import Input, Output, callback, dcc, html
 
 from src import stats
+from src.consts import LOG_DATA_DIR, MAP_CENTER
 
+DATA_DIR = LOG_DATA_DIR / "csv"
 dash.register_page(__name__)
 
-DATA_DIR = Path(__file__).parents[1] / "data" / "csv"
+
 igc_files = [file.stem for file in DATA_DIR.glob("*.csv")]
 sidebar = html.Div(
     dcc.Dropdown(igc_files, id="igc-files-dropdown", optionHeight=50, multi=True)
@@ -57,7 +57,7 @@ def update_trajectory(files):
     fig.update_layout(
         margin={"l": 0, "t": 0, "b": 0, "r": 0},
         mapbox={
-            "center": {"lon": 139.41889, "lat": 36.21139},
+            "center": MAP_CENTER,
             "style": "carto-positron",
             "zoom": 13,
         },
@@ -72,8 +72,8 @@ def update_trajectory(files):
         fig.add_trace(
             go.Scattermapbox(
                 mode="lines",
-                lon=df["longitude"],
                 lat=df["latitude"],
+                lon=df["longitude"],
                 hovertext=df["altitude(press)"],
                 hovertemplate="%{hovertext} m",
                 name=file,
