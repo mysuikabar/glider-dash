@@ -1,3 +1,6 @@
+from pathlib import Path
+
+import pandas as pd
 import polars as pl
 
 
@@ -31,3 +34,11 @@ def aggregate_minutely(df: pl.DataFrame) -> pl.DataFrame:
     )
 
     return df_agg
+
+
+def load_and_concat_csv(source_dir: Path) -> pd.DataFrame:
+    """
+    指定したディレクトリの直下にあるcsvファイルを全て読み込んで結合する
+    """
+    df_list = [pd.read_csv(path) for path in source_dir.glob("*.csv")]
+    return pd.concat(df_list, ignore_index=True)
