@@ -61,6 +61,7 @@ def update_trajectory(files):
             "style": "carto-positron",
             "zoom": 13,
         },
+        uirevision=True,
     )
 
     if files is None:

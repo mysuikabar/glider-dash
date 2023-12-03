@@ -108,6 +108,7 @@ def update_thermal_spots(
             "style": "carto-positron",
             "zoom": 13,
         },
+        uirevision=True,
     )
 
     fig.add_trace(
