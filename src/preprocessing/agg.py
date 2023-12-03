@@ -36,9 +36,23 @@ def aggregate_minutely(df: pl.DataFrame) -> pl.DataFrame:
     return df_agg
 
 
-def load_and_concat_csv(source_dir: Path) -> pd.DataFrame:
+def load_and_concat_csv(source_dir: Path) -> pl.DataFrame:
     """
     指定したディレクトリの直下にあるcsvファイルを全て読み込んで結合する
     """
     df_list = [pd.read_csv(path) for path in source_dir.glob("*.csv")]
-    return pd.concat(df_list, ignore_index=True)
+    df = pd.concat(df_list, ignore_index=True)
+    return pl.from_pandas(df)
+
+
+def merge_log_and_amedas_data(
+    df_log: pl.DataFrame, df_amedas: pl.DataFrame
+) -> pl.DataFrame:
+    """
+    ログデータとアメダスデータを結合する
+    """
+    df = df_log.with_columns(
+        pl.col("timestamp").dt.round("1h").alias("timestamp_round")
+    ).join(df_amedas, left_on="timestamp_round", right_on="timestamp", how="left")
+
+    return df
