@@ -246,6 +246,22 @@ files = [
 ]
 
 [[package]]
+name = "dash-uploader"
+version = "0.6.0"
+description = "Upload large files using resumable.js"
+optional = false
+python-versions = "*"
+files = [
+    {file = "dash_uploader-0.6.0.tar.gz", hash = "sha256:18eae11c6e4cd99ad52a1556420d49707e2e15bbf104dd9fc38716081b113619"},
+]
+
+[package.dependencies]
+dash = ">=1.1.0"
+
+[package.extras]
+dev = ["pyyaml (>=5.3.1,<5.4.0)"]
+
+[[package]]
 name = "flask"
 version = "3.0.0"
 description = "A simple framework for building complex web applications."
@@ -463,14 +479,17 @@ files = [
 
 [[package]]
 name = "packaging"
-version = "23.2"
+version = "21.3"
 description = "Core utilities for Python packages"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.6"
 files = [
-    {file = "packaging-23.2-py3-none-any.whl", hash = "sha256:8c491190033a9af7e1d931d0b5dacc2ef47509b34dd0de67ed209b5203fc88c7"},
-    {file = "packaging-23.2.tar.gz", hash = "sha256:048fb0e9405036518eaaf48a55953c750c11e1a1b68e0dd1a9d62ed0c092cfc5"},
+    {file = "packaging-21.3-py3-none-any.whl", hash = "sha256:ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522"},
+    {file = "packaging-21.3.tar.gz", hash = "sha256:dd47c42927d89ab911e606518907cc2d3a1f38bbd026385970643f9c5b8ecfeb"},
 ]
+
+[package.dependencies]
+pyparsing = ">=2.0.2,<3.0.5 || >3.0.5"
 
 [[package]]
 name = "pandas"
@@ -645,6 +664,20 @@ files = [
     {file = "PyGeodesy-23.11.11-py2.py3-none-any.whl", hash = "sha256:f6d450b5ff9c4905f163e341837bdcfb5b34e16c33791a957cc04dec8b20bf87"},
     {file = "PyGeodesy-23.11.11.zip", hash = "sha256:52aabad9712d3c0c4731bfc252e826245669b1e26e21d7179b7789ea867e90e6"},
 ]
+
+[[package]]
+name = "pyparsing"
+version = "3.1.1"
+description = "pyparsing module - Classes and methods to define and execute parsing grammars"
+optional = false
+python-versions = ">=3.6.8"
+files = [
+    {file = "pyparsing-3.1.1-py3-none-any.whl", hash = "sha256:32c7c0b711493c72ff18a981d24f28aaf9c1fb7ed5e9667c9e84e3db623bdbfb"},
+    {file = "pyparsing-3.1.1.tar.gz", hash = "sha256:ede28a1a32462f5a9705e07aea48001a08f7cf81a021585011deba701581a0db"},
+]
+
+[package.extras]
+diagrams = ["jinja2", "railroad-diagrams"]
 
 [[package]]
 name = "python-dateutil"
@@ -840,4 +873,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "bf562a520c890a8895602eb696556cd8a489ccea2bd47f81e5e85a479da69ab4"
+content-hash = "6ea40133f10e8adb11c7f3c9509a000cf7e0ea917eb8053cda4fe6a86789493c"
