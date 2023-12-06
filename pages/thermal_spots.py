@@ -25,7 +25,7 @@ sidebar = html.Div(
         html.Div(
             [
                 html.P("temperature (℃)"),
-                dcc.RangeSlider(min=0, max=30, step=5, value=[0, 30], id="temperature"),
+                dcc.RangeSlider(min=0, max=35, step=5, value=[0, 35], id="temperature"),
             ]
         ),
         html.Div(
@@ -38,7 +38,14 @@ sidebar = html.Div(
             [
                 html.P("wind direction (°)"),
                 dcc.RangeSlider(
-                    min=0, max=360, step=45, value=[0, 360], id="wind-direction"
+                    min=0,
+                    max=360,
+                    step=45,
+                    value=[0, 360],
+                    marks={
+                        v: str(v) if v % 90 == 0 else "" for v in range(0, 360 + 45, 45)
+                    },
+                    id="wind-direction",
                 ),
             ]
         ),
@@ -51,13 +58,14 @@ sidebar = html.Div(
             ]
         ),
     ],
+    className="parent-div",
+    style={"textAlign": "center"},
 )
 
 content = html.Div(
     [
-        html.P("Thermal Spots"),
         dcc.Store(data=MAP_CENTER, id="map-center"),
-        dcc.Graph(id="thermal-spots"),
+        dcc.Graph(id="thermal-spots", className="fig", style={"height": "90vh"}),
     ]
 )
 

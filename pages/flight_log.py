@@ -19,32 +19,47 @@ du.configure_upload(dash.get_app(), TMP_DIR)
 
 sidebar = html.Div(
     [
-        du.Upload(
-            text="Upload IGC File",
-            filetypes=["igc"],
-            id="igc-files-uploader",
-        ),
+        du.Upload(text="Upload IGC File", filetypes=["igc"], id="igc-files-uploader"),
         dcc.Dropdown([], optionHeight=50, multi=True, id="igc-files-dropdown"),
         dcc.Store(id="current-tmp-dir"),
-    ]
+    ],
+    className="parent-div",
 )
 
 content = html.Div(
     [
         dbc.Row(
             [
-                dbc.Col([html.P("Trajectory"), dcc.Graph(id="trajectory")]),
+                dbc.Col(
+                    [
+                        dcc.Graph(
+                            id="trajectory", className="fig", style={"height": "50vh"}
+                        ),
+                    ]
+                ),
             ],
-            style={"height": "50vh"},
         ),
         dbc.Row(
             [
-                dbc.Col([html.P("Altitude"), dcc.Graph(id="altitude")], width=8),
-                dbc.Col([html.P("Climb Rate"), dcc.Graph(id="climb-rate")], width=4),
+                dbc.Col(
+                    [
+                        dcc.Graph(
+                            id="altitude", className="fig", style={"height": "40vh"}
+                        ),
+                    ],
+                    width=8,
+                ),
+                dbc.Col(
+                    [
+                        dcc.Graph(
+                            id="climb-rate", className="fig", style={"height": "40vh"}
+                        ),
+                    ],
+                    width=4,
+                ),
             ],
-            style={"height": "50vh"},
         ),
-    ]
+    ],
 )
 
 layout = dbc.Container(
@@ -54,7 +69,6 @@ layout = dbc.Container(
                 dbc.Col(sidebar, width=2, className="bg-light"),
                 dbc.Col(content, width=10),
             ],
-            style={"height": "100vh"},
         ),
     ],
     fluid=True,
@@ -129,6 +143,7 @@ def update_trajectory(files: List[str], current_tmp_dir: str):
 def update_altitude(files: List[str], current_tmp_dir: str):
     fig = go.Figure()
     fig.update_layout(
+        margin=dict(t=10, b=10),
         xaxis_title="time",
         yaxis_title="altitulde (m)",
         showlegend=False,
@@ -152,7 +167,12 @@ def update_altitude(files: List[str], current_tmp_dir: str):
 )
 def update_climb_rate(files: List[str], current_tmp_dir: str):
     fig = go.Figure()
-    fig.update_layout(yaxis_title="climb rate (m/s)", showlegend=False)
+    fig.update_layout(
+        margin=dict(t=10, b=10),
+        xaxis_title="filename",
+        yaxis_title="climb rate (m/s)",
+        showlegend=False,
+    )
 
     if files is None:
         return fig
