@@ -8,6 +8,7 @@ import dash_uploader as du
 import pandas as pd
 import plotly.graph_objects as go
 from dash import Input, Output, State, callback, dcc, html
+from plotly.express import colors
 
 from src import stats
 from src.consts import MAP_CENTER, TMP_DIR
@@ -22,6 +23,7 @@ sidebar = html.Div(
     [
         du.Upload(text="Upload IGC File", filetypes=["igc"], id="igc-files-uploader"),
         dcc.Dropdown([], optionHeight=50, multi=True, id="igc-files-dropdown"),
+        dcc.Checklist([" highlight circling"], [], id="highlight-circling"),
         dcc.Store(id="current-tmp-dir"),
     ],
     className="parent-div",
@@ -102,9 +104,10 @@ def update_dropdown(current_tmp_dir: str):
 @callback(
     Output(component_id="trajectory", component_property="figure"),
     Input(component_id="igc-files-dropdown", component_property="value"),
+    Input(component_id="highlight-circling", component_property="value"),
     State(component_id="current-tmp-dir", component_property="data"),
 )
-def update_trajectory(files: List[str], current_tmp_dir: str):
+def update_trajectory(files: List[str], checklists: List[str], current_tmp_dir: str):
     fig = go.Figure()
     fig.update_layout(
         margin={"l": 0, "t": 0, "b": 0, "r": 0},
@@ -121,7 +124,7 @@ def update_trajectory(files: List[str], current_tmp_dir: str):
         fig.add_trace(go.Scattermapbox())
         return fig
 
-    for file in files:
+    for file, color in zip(files, colors.qualitative.Plotly):
         df = pd.read_csv(Path(current_tmp_dir) / f"{file}.csv")
         fig.add_trace(
             go.Scattermapbox(
@@ -130,9 +133,26 @@ def update_trajectory(files: List[str], current_tmp_dir: str):
                 lon=df["longitude"],
                 hovertext=df["altitude(press)"],
                 hovertemplate="%{hovertext} m",
+                marker=dict(color=color),
                 name=file,
             )
         )
+
+        if checklists:
+            # highlight circling when the checkbox is checked
+            df_circling = df[df["circling"] == 1]
+            fig.add_trace(
+                go.Scattermapbox(
+                    mode="markers",
+                    lat=df_circling["latitude"],
+                    lon=df_circling["longitude"],
+                    hovertext=df["altitude(press)"],
+                    hovertemplate="%{hovertext} m",
+                    marker=dict(color="yellow", size=3),
+                    name=file,
+                    showlegend=False,
+                )
+            )
 
     return fig
 
