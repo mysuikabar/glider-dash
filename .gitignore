@@ -1,3 +1,4 @@
 .env
+*.csv
+*.igc
 *.pyc
-data/
