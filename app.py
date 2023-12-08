@@ -1,43 +1,29 @@
+import dash
 import dash_bootstrap_components as dbc
 from dash import Dash, html
+from dotenv import load_dotenv
 
-from components import flight_log
+load_dotenv()
 
-app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
+app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY], use_pages=True)
 
-sidebar = html.Div(
-    [html.H3("Glider Dashboard"), html.P("Select IGC files"), flight_log.dropdown]
-)
-content = html.Div(
-    [
-        dbc.Row(
-            [
-                dbc.Col([html.P("Trajectory"), flight_log.graph_trajectory]),
-            ],
-            style={"height": "50vh"},
-        ),
-        dbc.Row(
-            [
-                dbc.Col([html.P("Altitude"), flight_log.graph_altitude]),
-                dbc.Col([html.P("Climb Rate")]),
-            ],
-            style={"height": "50vh"},
-        ),
-    ]
-)
-
-
-app.layout = dbc.Container(
-    [
-        dbc.Row(
-            [
-                dbc.Col(sidebar, width=2, className="bg-light"),
-                dbc.Col(content, width=10),
-            ],
-            style={"height": "100vh"},
-        ),
+navbar = dbc.NavbarSimple(
+    children=[
+        *[
+            dbc.NavItem(dbc.NavLink(f"{page['name']}", href=page["relative_path"]))
+            for page in dash.page_registry.values()
+        ],
     ],
-    fluid=True,
+    brand="Glider Dashboard",
+    color="primary",
+    dark=True,
+)
+
+app.layout = html.Div(
+    [
+        navbar,
+        dash.page_container,
+    ]
 )
 
 

@@ -25,7 +25,7 @@ def igc2csv(path: Path) -> pd.DataFrame:
         content = f.readlines()
     lines = [line.rstrip("\n") for line in content]
 
-    # Extract date
+    # extract date
     h_record_pattern = r"HFDTE(\d{2})(\d{2})(\d{2})"  # HFDTE day month year
 
     for line in lines:
@@ -42,7 +42,7 @@ def igc2csv(path: Path) -> pd.DataFrame:
     data["altitude(press)"] = []
     data["altitude(gnss)"] = []
 
-    # Extract B-record
+    # extract B-record
     b_record_pattern = r"B(\d{6})(\d{7})N(\d{8})EA(-\d{4}|\d{5})(-\d{4}|\d{5})"  # B time lat lon A PressAlt GNSSAlt
 
     for line in lines:
@@ -68,4 +68,11 @@ def igc2csv(path: Path) -> pd.DataFrame:
             data["altitude(press)"].append(alt_press)
             data["altitude(gnss)"].append(alt_gnss)
 
-    return pd.DataFrame(data=data)
+    df = pd.DataFrame(data=data)
+
+    # change time zone
+    df["timestamp"] = df["timestamp"].dt.tz_localize("UTC")
+    df["timestamp"] = df["timestamp"].dt.tz_convert("Asia/Tokyo")
+    df["timestamp"] = df["timestamp"].dt.tz_localize(None)
+
+    return df
