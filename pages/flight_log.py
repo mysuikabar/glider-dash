@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from typing import List
 
@@ -108,9 +109,10 @@ def update_trajectory(files: List[str], current_tmp_dir: str):
     fig.update_layout(
         margin={"l": 0, "t": 0, "b": 0, "r": 0},
         mapbox={
+            "accesstoken": os.getenv("MAPBOX_ACCESS_TOKEN"),
             "center": MAP_CENTER,
-            "style": "carto-positron",
-            "zoom": 13,
+            "style": "satellite",
+            "zoom": 12,
         },
         uirevision=True,
     )

@@ -1,6 +1,9 @@
 import dash
 import dash_bootstrap_components as dbc
 from dash import Dash, html
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY], use_pages=True)
 

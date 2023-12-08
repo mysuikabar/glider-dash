@@ -1,3 +1,5 @@
+import os
+
 import dash
 import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
@@ -112,9 +114,10 @@ def update_thermal_spots(
     fig.update_layout(
         margin={"l": 0, "t": 0, "b": 0, "r": 0},
         mapbox={
+            "accesstoken": os.getenv("MAPBOX_ACCESS_TOKEN"),
             "center": MAP_CENTER,
-            "style": "carto-positron",
-            "zoom": 13,
+            "style": "satellite",
+            "zoom": 12,
         },
         uirevision=True,
     )
@@ -127,8 +130,8 @@ def update_thermal_spots(
             marker=dict(
                 size=10,
                 color=df_filtered["climb_rate"],
-                colorscale="RdBu_r",
-                cmin=-3,
+                colorscale="Blackbody_r",
+                cmin=-1,
                 cmax=3,
                 colorbar=dict(title="Climb Rate"),
             ),
