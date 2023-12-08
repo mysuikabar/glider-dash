@@ -7,6 +7,8 @@ load_dotenv()
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY], use_pages=True)
 
+server = app.server
+
 navbar = dbc.NavbarSimple(
     children=[
         *[

@@ -59,6 +59,22 @@ sidebar = html.Div(
                 ),
             ]
         ),
+        html.Div(
+            [
+                html.P("altitude (m)"),
+                dcc.RangeSlider(
+                    min=200,
+                    max=1600,
+                    step=200,
+                    value=[200, 2000],
+                    marks={
+                        v: str(v) if v % 400 == 0 or v == 200 else ""
+                        for v in range(200, 1600 + 200, 200)
+                    },
+                    id="altitude",
+                ),
+            ]
+        ),
     ],
     className="parent-div",
     style={"textAlign": "center"},
@@ -91,9 +107,14 @@ layout = layout = dbc.Container(
     Input(component_id="wind-speed", component_property="value"),
     Input(component_id="wind-direction", component_property="value"),
     Input(component_id="daylight-hours", component_property="value"),
+    Input(component_id="altitude", component_property="value"),
 )
 def update_thermal_spots(
-    temperature_range, wind_speed_range, wind_direction_range, daylight_hours_range
+    temperature_range,
+    wind_speed_range,
+    wind_direction_range,
+    daylight_hours_range,
+    altitude_range,
 ):
     df_filtered = df.filter(
         (pl.col("temperature").is_between(temperature_range[0], temperature_range[1]))
@@ -108,6 +129,7 @@ def update_thermal_spots(
                 daylight_hours_range[0], daylight_hours_range[1]
             )
         )
+        & (pl.col("altitude(press)").is_between(altitude_range[0], altitude_range[1]))
     )
 
     fig = go.Figure()
