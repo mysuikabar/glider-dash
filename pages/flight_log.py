@@ -47,7 +47,9 @@ content = html.Div(
                 dbc.Col(
                     [
                         dcc.Graph(
-                            id="altitude", className="fig", style={"height": "40vh"}
+                            id="altitude-transition",
+                            className="fig",
+                            style={"height": "40vh"},
                         ),
                     ],
                     width=8,
@@ -158,7 +160,7 @@ def update_trajectory(files: List[str], checklists: List[str], current_tmp_dir: 
 
 
 @callback(
-    Output(component_id="altitude", component_property="figure"),
+    Output(component_id="altitude-transition", component_property="figure"),
     Input(component_id="igc-files-dropdown", component_property="value"),
     State(component_id="current-tmp-dir", component_property="data"),
 )
