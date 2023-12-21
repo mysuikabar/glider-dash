@@ -3,7 +3,7 @@ from pathlib import Path
 import boto3
 
 
-def fetch_files_from_s3(bucket_name: str, s3_folder: str, local_dir: Path):
+def fetch_csv_from_s3(bucket_name: str, s3_folder: str, local_dir: Path):
     """
     S3上の指定したフォルダのcsvファイルをローカルにダウンロードする
     """

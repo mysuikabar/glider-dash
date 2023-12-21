@@ -6,17 +6,18 @@ import plotly.graph_objects as go
 import polars as pl
 from dash import Input, Output, callback, dcc, html
 
-from src.consts import AMEDAS_DATA_DIR, LOG_DATA_DIR, MAP_CENTER
+from src.config import Config
+from src.consts import MAP_CENTER
 from src.preprocessing.agg import load_and_concat_csv, merge_log_and_amedas_data
 
 dash.register_page(__name__)
 
 
 # load data
-df_log = load_and_concat_csv(LOG_DATA_DIR / "agg").with_columns(
+df_log = load_and_concat_csv(Config.log_data_dir / "agg").with_columns(
     pl.col("timestamp").str.strptime(pl.Datetime)
 )
-df_amedas = load_and_concat_csv(AMEDAS_DATA_DIR / "processed").with_columns(
+df_amedas = load_and_concat_csv(Config.amedas_data_dir / "processed").with_columns(
     pl.col("timestamp").str.strptime(pl.Datetime)
 )
 df = merge_log_and_amedas_data(df_log, df_amedas)
@@ -150,7 +151,7 @@ def update_thermal_spots(
             lat=df_filtered["latitude"],
             lon=df_filtered["longitude"],
             marker=dict(
-                size=10,
+                size=6,
                 color=df_filtered["climb_rate"],
                 colorscale="Blackbody_r",
                 cmin=-1,

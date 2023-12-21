@@ -8,7 +8,7 @@ from circling import compute_heading_transition, detect_circling
 from igc import igc2csv
 from tqdm import tqdm
 
-from src.consts import AMEDAS_DATA_DIR, LOG_DATA_DIR
+from src.config import Config
 
 logger = getLogger(__file__)
 logger.setLevel(INFO)
@@ -63,13 +63,15 @@ def processing_amedas_data(source_dir: Path, target_dir: Path):
 
 if __name__ == "__main__":
     logger.info("Converting igc to csv...")
-    convert_igc_to_csv(LOG_DATA_DIR / "igc", LOG_DATA_DIR / "csv")
+    convert_igc_to_csv(Config.log_data_dir / "igc", Config.log_data_dir / "csv")
     logger.info("Completed!")
 
     logger.info("Aggregating log data...")
-    aggregate_log_data(LOG_DATA_DIR / "csv", LOG_DATA_DIR / "agg")
+    aggregate_log_data(Config.log_data_dir / "csv", Config.log_data_dir / "agg")
     logger.info("Completed!")
 
     logger.info("Processing amedas data...")
-    processing_amedas_data(AMEDAS_DATA_DIR / "raw", AMEDAS_DATA_DIR / "processed")
+    processing_amedas_data(
+        Config.amedas_data_dir / "raw", Config.amedas_data_dir / "processed"
+    )
     logger.info("Completed!")
