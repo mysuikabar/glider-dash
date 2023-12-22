@@ -10,10 +10,11 @@ from src.fetch_data import fetch_csv_from_s3
 
 load_dotenv()
 
-bucket_name = os.getenv("BUCKET_NAME")
-fetch_csv_from_s3(bucket_name, "log/agg/", Config.log_data_dir / "agg")
+bucket_name_log = os.getenv("BUCKET_NAME_LOG")
+bucket_name_amedas = os.getenv("BUCKET_NAME_AMEDAS")
+fetch_csv_from_s3(bucket_name=bucket_name_log, local_dir=Config.log_data_dir / "agg")
 fetch_csv_from_s3(
-    bucket_name, "amedas/processed/", Config.amedas_data_dir / "processed"
+    bucket_name=bucket_name_amedas, local_dir=Config.amedas_data_dir / "processed"
 )
 
 
