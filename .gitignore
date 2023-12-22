@@ -2,3 +2,5 @@
 *.csv
 *.igc
 *.pyc
+*.zip
+app.yaml
