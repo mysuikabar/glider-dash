@@ -14,5 +14,11 @@
     },           
     "mypy-type-checker.args": [
         "--ignore-missing-imports"
-    ]
+    ],
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "remote.autoForwardPortsFallback": 0
 }
