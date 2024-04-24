@@ -27,44 +27,6 @@ files = [
 ]
 
 [[package]]
-name = "boto3"
-version = "1.33.10"
-description = "The AWS SDK for Python"
-optional = false
-python-versions = ">= 3.7"
-files = [
-    {file = "boto3-1.33.10-py3-none-any.whl", hash = "sha256:8011445d95499ca9622d8d368ce469d51bc9e82a23b6edd6498f9ae57d69ce9e"},
-    {file = "boto3-1.33.10.tar.gz", hash = "sha256:407b26197aced386e7ce2327ca9199b506dcf248220cfb8fc89d06497dd4522b"},
-]
-
-[package.dependencies]
-botocore = ">=1.33.10,<1.34.0"
-jmespath = ">=0.7.1,<2.0.0"
-s3transfer = ">=0.8.2,<0.9.0"
-
-[package.extras]
-crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
-
-[[package]]
-name = "botocore"
-version = "1.33.10"
-description = "Low-level, data-driven core of boto 3."
-optional = false
-python-versions = ">= 3.7"
-files = [
-    {file = "botocore-1.33.10-py3-none-any.whl", hash = "sha256:9619609692a7f99f33093a305a0fb88ca5c83104f97ead3a4405b1e4ba6058f9"},
-    {file = "botocore-1.33.10.tar.gz", hash = "sha256:82be3da9ceac9d847d115a80f0a0dae020c3534ef88839ef907eb3205309fd4a"},
-]
-
-[package.dependencies]
-jmespath = ">=0.7.1,<2.0.0"
-python-dateutil = ">=2.1,<3.0.0"
-urllib3 = {version = ">=1.25.4,<2.1", markers = "python_version >= \"3.10\""}
-
-[package.extras]
-crt = ["awscrt (==0.19.17)"]
-
-[[package]]
 name = "cachetools"
 version = "5.3.3"
 description = "Extensible memoizing collections and decorators"
@@ -200,6 +162,23 @@ files = [
 colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
 [[package]]
+name = "cloudevents"
+version = "1.10.1"
+description = "CloudEvents Python SDK"
+optional = false
+python-versions = "*"
+files = [
+    {file = "cloudevents-1.10.1-py3-none-any.whl", hash = "sha256:832f1e3cca0887ab8f993cd2c0645a2155e73792f740d86f7b4bc8620a10d50e"},
+    {file = "cloudevents-1.10.1.tar.gz", hash = "sha256:984d90aa114deeb1c37ceecf78f9dc9d56f5866cf10b45142a23c84d22621ac9"},
+]
+
+[package.dependencies]
+deprecation = ">=2.0,<3.0"
+
+[package.extras]
+pydantic = ["pydantic (>=1.0.0,<3.0)"]
+
+[[package]]
 name = "colorama"
 version = "0.4.6"
 description = "Cross-platform colored terminal text."
@@ -311,6 +290,20 @@ dash = ">=1.1.0"
 dev = ["pyyaml (>=5.3.1,<5.4.0)"]
 
 [[package]]
+name = "deprecation"
+version = "2.1.0"
+description = "A library to handle automated deprecations"
+optional = false
+python-versions = "*"
+files = [
+    {file = "deprecation-2.1.0-py2.py3-none-any.whl", hash = "sha256:a10811591210e1fb0e768a8c25517cabeabcba6f0bf96564f8ff45189f90b14a"},
+    {file = "deprecation-2.1.0.tar.gz", hash = "sha256:72b3bde64e5d778694b0cf68178aed03d15e15477116add3fb773e581f9518ff"},
+]
+
+[package.dependencies]
+packaging = "*"
+
+[[package]]
 name = "flask"
 version = "3.0.0"
 description = "A simple framework for building complex web applications."
@@ -331,6 +324,24 @@ Werkzeug = ">=3.0.0"
 [package.extras]
 async = ["asgiref (>=3.2)"]
 dotenv = ["python-dotenv"]
+
+[[package]]
+name = "functions-framework"
+version = "3.5.0"
+description = "An open source FaaS (Function as a service) framework for writing portable Python functions -- brought to you by the Google Cloud Functions team."
+optional = false
+python-versions = ">=3.5, <4"
+files = [
+    {file = "functions-framework-3.5.0.tar.gz", hash = "sha256:b6d0d640016d14241c928b0f0c71e831387897709dc70bf19698a64c381f9e57"},
+    {file = "functions_framework-3.5.0-py3-none-any.whl", hash = "sha256:ca4a027d1e8b0a201364614d06fef4abe5294ccb412b35bb982026a6b3e1be58"},
+]
+
+[package.dependencies]
+click = ">=7.0,<9.0"
+cloudevents = ">=1.2.0,<2.0.0"
+flask = ">=1.0,<4.0"
+gunicorn = {version = ">=19.2.0", markers = "platform_system != \"Windows\""}
+watchdog = ">=1.0.0"
 
 [[package]]
 name = "google-api-core"
@@ -736,17 +747,6 @@ MarkupSafe = ">=2.0"
 
 [package.extras]
 i18n = ["Babel (>=2.7)"]
-
-[[package]]
-name = "jmespath"
-version = "1.0.1"
-description = "JSON Matching Expressions"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "jmespath-1.0.1-py3-none-any.whl", hash = "sha256:02e2e4cc71b5bcab88332eebf907519190dd9e6e82107fa7f83b1003a6252980"},
-    {file = "jmespath-1.0.1.tar.gz", hash = "sha256:90261b206d6defd58fdd5e85f478bf633a2901798906be2ad389150c5c60edbe"},
-]
 
 [[package]]
 name = "markupsafe"
@@ -1250,23 +1250,6 @@ files = [
 pyasn1 = ">=0.1.3"
 
 [[package]]
-name = "s3transfer"
-version = "0.8.2"
-description = "An Amazon S3 Transfer Manager"
-optional = false
-python-versions = ">= 3.7"
-files = [
-    {file = "s3transfer-0.8.2-py3-none-any.whl", hash = "sha256:c9e56cbe88b28d8e197cf841f1f0c130f246595e77ae5b5a05b69fe7cb83de76"},
-    {file = "s3transfer-0.8.2.tar.gz", hash = "sha256:368ac6876a9e9ed91f6bc86581e319be08188dc60d50e0d56308ed5765446283"},
-]
-
-[package.dependencies]
-botocore = ">=1.33.2,<2.0a.0"
-
-[package.extras]
-crt = ["botocore[crt] (>=1.33.2,<2.0a.0)"]
-
-[[package]]
 name = "setuptools"
 version = "69.0.2"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
@@ -1367,6 +1350,47 @@ socks = ["pysocks (>=1.5.6,!=1.5.7,<2.0)"]
 zstd = ["zstandard (>=0.18.0)"]
 
 [[package]]
+name = "watchdog"
+version = "4.0.0"
+description = "Filesystem events monitoring"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "watchdog-4.0.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:39cb34b1f1afbf23e9562501673e7146777efe95da24fab5707b88f7fb11649b"},
+    {file = "watchdog-4.0.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:c522392acc5e962bcac3b22b9592493ffd06d1fc5d755954e6be9f4990de932b"},
+    {file = "watchdog-4.0.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:6c47bdd680009b11c9ac382163e05ca43baf4127954c5f6d0250e7d772d2b80c"},
+    {file = "watchdog-4.0.0-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:8350d4055505412a426b6ad8c521bc7d367d1637a762c70fdd93a3a0d595990b"},
+    {file = "watchdog-4.0.0-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:c17d98799f32e3f55f181f19dd2021d762eb38fdd381b4a748b9f5a36738e935"},
+    {file = "watchdog-4.0.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:4986db5e8880b0e6b7cd52ba36255d4793bf5cdc95bd6264806c233173b1ec0b"},
+    {file = "watchdog-4.0.0-cp312-cp312-macosx_10_9_universal2.whl", hash = "sha256:11e12fafb13372e18ca1bbf12d50f593e7280646687463dd47730fd4f4d5d257"},
+    {file = "watchdog-4.0.0-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:5369136a6474678e02426bd984466343924d1df8e2fd94a9b443cb7e3aa20d19"},
+    {file = "watchdog-4.0.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:76ad8484379695f3fe46228962017a7e1337e9acadafed67eb20aabb175df98b"},
+    {file = "watchdog-4.0.0-cp38-cp38-macosx_10_9_universal2.whl", hash = "sha256:45cc09cc4c3b43fb10b59ef4d07318d9a3ecdbff03abd2e36e77b6dd9f9a5c85"},
+    {file = "watchdog-4.0.0-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:eed82cdf79cd7f0232e2fdc1ad05b06a5e102a43e331f7d041e5f0e0a34a51c4"},
+    {file = "watchdog-4.0.0-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:ba30a896166f0fee83183cec913298151b73164160d965af2e93a20bbd2ab605"},
+    {file = "watchdog-4.0.0-cp39-cp39-macosx_10_9_universal2.whl", hash = "sha256:d18d7f18a47de6863cd480734613502904611730f8def45fc52a5d97503e5101"},
+    {file = "watchdog-4.0.0-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:2895bf0518361a9728773083908801a376743bcc37dfa252b801af8fd281b1ca"},
+    {file = "watchdog-4.0.0-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:87e9df830022488e235dd601478c15ad73a0389628588ba0b028cb74eb72fed8"},
+    {file = "watchdog-4.0.0-pp310-pypy310_pp73-macosx_10_9_x86_64.whl", hash = "sha256:6e949a8a94186bced05b6508faa61b7adacc911115664ccb1923b9ad1f1ccf7b"},
+    {file = "watchdog-4.0.0-pp38-pypy38_pp73-macosx_10_9_x86_64.whl", hash = "sha256:6a4db54edea37d1058b08947c789a2354ee02972ed5d1e0dca9b0b820f4c7f92"},
+    {file = "watchdog-4.0.0-pp39-pypy39_pp73-macosx_10_9_x86_64.whl", hash = "sha256:d31481ccf4694a8416b681544c23bd271f5a123162ab603c7d7d2dd7dd901a07"},
+    {file = "watchdog-4.0.0-py3-none-manylinux2014_aarch64.whl", hash = "sha256:8fec441f5adcf81dd240a5fe78e3d83767999771630b5ddfc5867827a34fa3d3"},
+    {file = "watchdog-4.0.0-py3-none-manylinux2014_armv7l.whl", hash = "sha256:6a9c71a0b02985b4b0b6d14b875a6c86ddea2fdbebd0c9a720a806a8bbffc69f"},
+    {file = "watchdog-4.0.0-py3-none-manylinux2014_i686.whl", hash = "sha256:557ba04c816d23ce98a06e70af6abaa0485f6d94994ec78a42b05d1c03dcbd50"},
+    {file = "watchdog-4.0.0-py3-none-manylinux2014_ppc64.whl", hash = "sha256:d0f9bd1fd919134d459d8abf954f63886745f4660ef66480b9d753a7c9d40927"},
+    {file = "watchdog-4.0.0-py3-none-manylinux2014_ppc64le.whl", hash = "sha256:f9b2fdca47dc855516b2d66eef3c39f2672cbf7e7a42e7e67ad2cbfcd6ba107d"},
+    {file = "watchdog-4.0.0-py3-none-manylinux2014_s390x.whl", hash = "sha256:73c7a935e62033bd5e8f0da33a4dcb763da2361921a69a5a95aaf6c93aa03a87"},
+    {file = "watchdog-4.0.0-py3-none-manylinux2014_x86_64.whl", hash = "sha256:6a80d5cae8c265842c7419c560b9961561556c4361b297b4c431903f8c33b269"},
+    {file = "watchdog-4.0.0-py3-none-win32.whl", hash = "sha256:8f9a542c979df62098ae9c58b19e03ad3df1c9d8c6895d96c0d51da17b243b1c"},
+    {file = "watchdog-4.0.0-py3-none-win_amd64.whl", hash = "sha256:f970663fa4f7e80401a7b0cbeec00fa801bf0287d93d48368fc3e6fa32716245"},
+    {file = "watchdog-4.0.0-py3-none-win_ia64.whl", hash = "sha256:9a03e16e55465177d416699331b0f3564138f1807ecc5f2de9d55d8f188d08c7"},
+    {file = "watchdog-4.0.0.tar.gz", hash = "sha256:e3e7065cbdabe6183ab82199d7a4f6b3ba0a438c5a512a68559846ccb76a78ec"},
+]
+
+[package.extras]
+watchmedo = ["PyYAML (>=3.10)"]
+
+[[package]]
 name = "werkzeug"
 version = "3.0.1"
 description = "The comprehensive WSGI web application library."
@@ -1401,4 +1425,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "75deaa992c5cd7e23da4edee6723a18ffc62c39730fcfb83ac30523184742d98"
+content-hash = "18ca7f9df7a35e3eddb14237d8b278032f1e4d9f233730cb02c035fba2f9011d"
