@@ -1,6 +1,6 @@
 import re
 from datetime import datetime
-from pathlib import Path
+from typing import Dict, List
 
 import pandas as pd
 
@@ -17,13 +17,11 @@ def _convert_dms_to_decimal(value: float) -> float:
     return integer_part + decimal_part_dec
 
 
-def igc2csv(path: Path) -> pd.DataFrame:
+def igc2csv(text: str) -> pd.DataFrame:
     """
     igcファイルをcsvに変換する
     """
-    with open(path) as f:
-        content = f.readlines()
-    lines = [line.rstrip("\n") for line in content]
+    lines = [line.rstrip("\n") for line in text.splitlines()]
 
     # extract date
     h_record_pattern = r"HFDTE(\d{2})(\d{2})(\d{2})"  # HFDTE day month year
@@ -35,7 +33,7 @@ def igc2csv(path: Path) -> pd.DataFrame:
             year = int("20" + result.group(3))
             break
 
-    data = {}
+    data: Dict[str, List] = {}
     data["timestamp"] = []
     data["latitude"] = []
     data["longitude"] = []
