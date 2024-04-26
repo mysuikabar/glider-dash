@@ -20,5 +20,7 @@
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
-    "remote.autoForwardPortsFallback": 0
+    "sqlfluff.config": "${workspaceFolder}/.sqlfluff",
+    "sqlfluff.executablePath": ".venv/bin/sqlfluff",
+    "sqlfluff.format.enabled": true,
 }
