@@ -1,5 +1,6 @@
 import datetime
 import re
+import uuid
 from typing import Any, Dict, List, Optional
 
 import pandas as pd
@@ -96,16 +97,19 @@ def igc2df(text: str) -> pd.DataFrame:
     lines = [line.rstrip("\n") for line in text.splitlines()]
 
     # extract H record
-    pilot, glider_type, glider_id = None, None, None
+    pilot, glider_type, glider_id = "unknown", "unknown", "unknown"
     for line in lines:
+        if re.match("HF", line) is None:
+            continue
+
         if _parse_date(line):
             date = _parse_date(line)
         elif _parse_pilot(line):
-            pilot = _parse_pilot(line)
+            pilot = _parse_pilot(line)  # type: ignore
         elif _parse_glider_type(line):
-            glider_type = _parse_glider_type(line)
+            glider_type = _parse_glider_type(line)  # type: ignore
         elif _parse_glider_id(line):
-            glider_id = _parse_glider_id(line)
+            glider_id = _parse_glider_id(line)  # type: ignore
 
     # extract B record
     data: Dict[str, List] = {}
@@ -128,7 +132,10 @@ def igc2df(text: str) -> pd.DataFrame:
         data["altitude_gnss"].append(result["altitude_gnss"])
 
     df = pd.DataFrame(data=data).assign(
-        pilot=pilot, glider_type=glider_type, glider_id=glider_id
+        flight_id=str(uuid.uuid4()),
+        pilot=pilot,
+        glider_type=glider_type,
+        glider_id=glider_id,
     )
 
     # change time zone
@@ -136,4 +143,16 @@ def igc2df(text: str) -> pd.DataFrame:
     df["timestamp"] = df["timestamp"].dt.tz_convert("Asia/Tokyo")
     df["timestamp"] = df["timestamp"].dt.tz_localize(None)
 
-    return df
+    return df[
+        [
+            "flight_id",
+            "pilot",
+            "glider_type",
+            "glider_id",
+            "timestamp",
+            "latitude",
+            "longitude",
+            "altitude",
+            "altitude_gnss",
+        ]
+    ]
