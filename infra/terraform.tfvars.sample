@@ -1,5 +1,3 @@
-project_id    = "your_project_id"
-region        = "asia-northeast1"
-bucket_name   = "your_bucket_name"
-function_name = "your_function_name"
-dataset_id    = "your_dataset_id"
+project_id           = "XXXX"
+bucket_name_igc      = "XXXX"
+bucket_name_function = "XXXX"

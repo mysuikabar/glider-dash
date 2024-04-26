@@ -55,8 +55,8 @@ def output_to_bq(
 
 @functions_framework.cloud_event
 def main(cloud_event: CloudEvent) -> None:
-    bucket_name = cloud_event["bucket"]
-    file_name = cloud_event["file"]
+    file_name = cloud_event.data["name"]
+    bucket_name = cloud_event.data["bucket"]
 
     project = os.getenv("PROJECT")
     dataset_id = os.environ["DATASET_ID"]
