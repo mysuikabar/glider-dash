@@ -44,7 +44,7 @@ def output_to_bq(
     table = client.dataset(dataset_id).table(table_id)
 
     job_config = bigquery.LoadJobConfig()
-    job_config.autodetect = True
+    job_config.autodetect = True  # TODO: スキーマを定義する
     job_config.write_disposition = bigquery.WriteDisposition.WRITE_APPEND
 
     job = client.load_table_from_dataframe(df, table, job_config=job_config)

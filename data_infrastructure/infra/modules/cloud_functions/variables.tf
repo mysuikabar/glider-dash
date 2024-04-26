@@ -1,17 +1,9 @@
-variable "project_id" {
-  type = string
-}
-
-variable "region" {
+variable "location" {
   type    = string
   default = "asia-northeast1"
 }
 
 variable "bucket_name_igc" {
-  type = string
-}
-
-variable "bucket_name_function" {
   type = string
 }
 

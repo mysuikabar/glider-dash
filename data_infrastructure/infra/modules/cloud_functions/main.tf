@@ -1,34 +1,22 @@
-terraform {
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "5.25.0"
-    }
-  }
+data "archive_file" "function_archive" {
+  type        = "zip"
+  source_dir  = "${path.module}/function"
+  output_path = "${path.module}/function.zip"
 }
 
-provider "google" {
-  project = var.project_id
-  region  = var.region
+resource "random_id" "bucket_name_suffix" {
+  byte_length = 4
 }
 
-# source bucket
 resource "google_storage_bucket" "source_bucket" {
   name          = var.bucket_name_igc
-  location      = var.region
+  location      = var.location
   force_destroy = true
 }
 
-# cloud functions
-data "archive_file" "function_archive" {
-  type        = "zip"
-  source_dir  = "./function"
-  output_path = "./function.zip"
-}
-
 resource "google_storage_bucket" "function_bucket" {
-  name          = var.bucket_name_function
-  location      = var.region
+  name          = "igc_processing_function_${random_id.bucket_name_suffix.hex}"
+  location      = var.location
   force_destroy = true
 }
 
@@ -53,11 +41,4 @@ resource "google_cloudfunctions_function" "function" {
     DATASET_ID = var.dataset_id
     TABLE_ID   = var.table_id
   }
-}
-
-# target dataset
-resource "google_bigquery_dataset" "dataset" {
-  dataset_id                 = var.dataset_id
-  location                   = var.region
-  delete_contents_on_destroy = true
 }
