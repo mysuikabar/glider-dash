@@ -1,4 +1,4 @@
-with tmp_log_with_first_last_record as (
+with tmp_flight_log as (
   select
     *,
     first_value(altitude) over (partition by timestamp_trunc(timestamp, minute) order by timestamp rows between unbounded preceding and unbounded following) as first_altitude,
@@ -6,7 +6,7 @@ with tmp_log_with_first_last_record as (
     first_value(timestamp) over (partition by timestamp_trunc(timestamp, minute) order by timestamp rows between unbounded preceding and unbounded following) as first_timestamp,
     last_value(timestamp) over (partition by timestamp_trunc(timestamp, minute) order by timestamp rows between unbounded preceding and unbounded following) as last_timestamp
   from
-    flight_log.ds_flight_log
+    {{ source('data_lake', 'flight_log') }}
 )
 
 select
@@ -21,6 +21,6 @@ select
   min(circling) as circling,
   (min(last_altitude) - min(first_altitude)) / timestamp_diff(min(last_timestamp), min(first_timestamp), second) as climb_rate
 from
-  tmp_log_with_first_last_record
+  tmp_flight_log
 group by
   timestamp

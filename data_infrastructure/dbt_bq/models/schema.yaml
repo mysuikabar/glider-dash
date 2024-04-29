@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: data_lake
+    tables:
+      - name: flight_log
+        description: Raw flight logs converted from IGC files
+
+models:
+  - name: flight_log
+    description: Flight logs aggregated minutely
