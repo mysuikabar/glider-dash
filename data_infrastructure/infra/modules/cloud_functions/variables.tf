@@ -13,11 +13,9 @@ variable "function_name" {
 }
 
 variable "dataset_id" {
-  type    = string
-  default = "flight_log"
+  type = string
 }
 
 variable "table_id" {
-  type    = string
-  default = "ds_flight_log"
+  type = string
 }

@@ -10,3 +10,13 @@ variable "region" {
 variable "bucket_name_igc" {
   type = string
 }
+
+variable "dataset_id" {
+  type    = string
+  default = "data_lake"
+}
+
+variable "table_id" {
+  type    = string
+  default = "flight_log"
+}
