@@ -23,4 +23,7 @@
     "sqlfluff.config": "${workspaceFolder}/.sqlfluff",
     "sqlfluff.executablePath": ".venv/bin/sqlfluff",
     "sqlfluff.format.enabled": true,
+    "sqlfluff.excludeRules": [
+        "RF04"
+    ],
 }
