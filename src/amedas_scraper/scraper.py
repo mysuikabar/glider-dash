@@ -60,9 +60,7 @@ def _process_data(df: pd.DataFrame, date: datetime.date) -> pd.DataFrame:
     return df_
 
 
-def get_amedas_data(
-    prec_no: str, block_no: str, year: int, month: int, day: int
-) -> pd.DataFrame:
+def get_amedas_data(prec_no: str, block_no: str, date: datetime.date) -> pd.DataFrame:
     """
     指定した地点、時刻のアメダスデータをデータフレームとして取得する
 
@@ -70,12 +68,16 @@ def get_amedas_data(
     """
     url_template = "https://www.data.jma.go.jp/obd/stats/etrn/view/10min_a1.php?prec_no={prec_no}&block_no={block_no}&year={year}&month={month}&day=1&view="
     url = url_template.format(
-        prec_no=prec_no, block_no=block_no, year=year, month=month, day=day
+        prec_no=prec_no,
+        block_no=block_no,
+        year=date.year,
+        month=date.month,
+        day=date.day,
     )
     response = requests.get(url)
     response.encoding = "utf-8"
 
     df = _parse_html_to_df(response.text)
-    df = _process_data(df, date=datetime.date(year, month, day))
+    df = _process_data(df, date=date)
 
     return df
