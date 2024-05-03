@@ -5,14 +5,17 @@ import dash_bootstrap_components as dbc
 from dash import Dash, html
 from dotenv import load_dotenv
 
-from src.consts import ROOT
-from src.fetch_data import fetch_files_from_s3
+from src.config import Config
+from src.fetch_data import fetch_csv_from_s3
 
 load_dotenv()
 
-bucket_name = os.getenv("BUCKET_NAME")
-fetch_files_from_s3(bucket_name, "log/agg/", ROOT / "data/log/agg/")
-fetch_files_from_s3(bucket_name, "amedas/processed/", ROOT / "data/amedas/processed/")
+bucket_name_log = os.getenv("BUCKET_NAME_LOG")
+bucket_name_amedas = os.getenv("BUCKET_NAME_AMEDAS")
+fetch_csv_from_s3(bucket_name=bucket_name_log, local_dir=Config.log_data_dir / "agg")
+fetch_csv_from_s3(
+    bucket_name=bucket_name_amedas, local_dir=Config.amedas_data_dir / "processed"
+)
 
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY], use_pages=True)

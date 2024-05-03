@@ -2,3 +2,8 @@
 *.csv
 *.igc
 *.pyc
+*.zip
+app.yaml
+*.tfstate
+*.tfvars
+.terraform*

@@ -11,12 +11,13 @@ from dash import Input, Output, State, callback, dcc, html
 from plotly.express import colors
 
 from src import stats
-from src.consts import MAP_CENTER, TMP_DIR
+from src.config import Config
+from src.consts import MAP_CENTER
 from src.preprocessing.circling import compute_heading_transition, detect_circling
 from src.preprocessing.igc import igc2csv
 
 dash.register_page(__name__)
-du.configure_upload(dash.get_app(), TMP_DIR)
+du.configure_upload(dash.get_app(), Config.tmp_dir)
 
 
 sidebar = html.Div(
