@@ -4,18 +4,18 @@ data "archive_file" "function_archive" {
   output_path = "${path.module}/function.zip"
 }
 
-resource "random_id" "bucket_name_suffix" {
+resource "random_id" "suffix" {
   byte_length = 4
 }
 
 resource "google_storage_bucket" "source_bucket" {
-  name          = var.bucket_name_igc
+  name          = "${var.source_bucket_prefix}_${random_id.suffix.hex}"
   location      = var.location
   force_destroy = true
 }
 
 resource "google_storage_bucket" "function_bucket" {
-  name          = "igc_processing_function_${random_id.bucket_name_suffix.hex}"
+  name          = "${var.function_bucket_prefix}_${random_id.suffix.hex}"
   location      = var.location
   force_destroy = true
 }
