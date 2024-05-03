@@ -39,8 +39,8 @@ def load_weather_data_to_bq():
     """
     アメダスデータをスクレイピングしてBigQueryに読み込む
     """
-    yesterday = datetime.date.today() - datetime.timedelta(days=1)
-    df = get_amedas_data(prec_no=PREC_NO, block_no=BLOCK_NO, date=yesterday)
+    date = datetime.date.today() - datetime.timedelta(days=2)
+    df = get_amedas_data(prec_no=PREC_NO, block_no=BLOCK_NO, date=date)
     output_to_bq(df, dataset_id="data_lake", table_id="amedas", project="glider-dash")
 
 
