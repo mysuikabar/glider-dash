@@ -21,7 +21,9 @@
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
     "sqlfluff.config": "${workspaceFolder}/.sqlfluff",
-    "sqlfluff.executablePath": ".venv/bin/sqlfluff",
+    "sqlfluff.executablePath": "${workspaceFolder}/.venv/bin/sqlfluff",
+    "sqlfluff.linter.run": "onSave",
+    "sqlfluff.experimental.format.executeInTerminal": true,
     "sqlfluff.format.enabled": true,
     "sqlfluff.excludeRules": [
         "RF04"
