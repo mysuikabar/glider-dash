@@ -4,6 +4,6 @@
 *.pyc
 *.zip
 app.yaml
-*.tfstate
+*.tfstate*
 *.tfvars
 .terraform*

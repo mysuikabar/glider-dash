@@ -1,0 +1,13 @@
+[sqlfluff]
+templater = dbt
+dialect = bigquery
+max_line_length = 200
+
+[sqlfluff:indentation]
+tab_space_size = 2
+
+[sqlfluff:templater:dbt]
+project_dir = ./data_infrastructure/dbt_bq/
+profiles_dir = ~/.dbt/
+profile = dbt_bq
+target = dev
